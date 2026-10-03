@@ -1,0 +1,29 @@
+# Render Blueprint: a password-protected, TEST-ONLY staging deployment.
+# Creating this service incurs compute and persistent-disk charges.
+services:
+  - type: web
+    name: koren-staging
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /healthz
+    disk:
+      name: koren-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: KOREN_DATA_DIR
+        value: /var/data
+      - key: KOREN_STAGING_ONLY
+        value: '1'
+      - key: STAGING_HTTP_USER
+        sync: false
+      - key: STAGING_HTTP_PASSWORD
+        sync: false
+      - key: ADMIN_USER
+        value: admin
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true

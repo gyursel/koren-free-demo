@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="bg">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#193f35" />
+  <meta name="description" content="Корен — модерен онлайн магазин за свежи плодове, зеленчуци и внимателно подбрани хранителни продукти." />
+  <title>Корен — свежест, която има значение</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#products">Към продуктите</a>
+  <div class="announcement"><span class="announcement-dot"></span> Доставка до вашата врата <span class="announcement-separator">✳</span> Безплатна доставка над 45 € <span class="announcement-dot"></span></div>
+
+  <div class="payment-result" id="paymentResult" role="status" aria-live="polite" hidden></div>
+
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="Корен — начало">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 44 44" fill="none"><path d="M22 34V14M22 25c-7 0-12-5-12-12 8 0 12 3 12 12Zm0-5c0-8 5-12 13-12 0 9-5 13-13 13" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 34h14" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg></span>
+        <span class="brand-name">корен<span class="brand-period">.</span></span>
+      </a>
+      <nav class="desktop-nav" aria-label="Главна навигация">
+        <a class="nav-active" href="#top">Начало</a>
+        <a href="#categories">Категории</a>
+        <a href="#products">Продукти</a>
+        <a href="#story">За нас</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-button search-toggle" id="searchToggle" type="button" aria-label="Търси продукти" title="Търси продукти"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.7" cy="10.7" r="6.8"/><path d="m16 16 5.1 5.1" stroke-linecap="round"/></svg></button>
+        <button class="cart-toggle" id="cartToggle" type="button" aria-label="Отвори количката"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 5h2l2.1 10h11.6L21 8H6" stroke-linejoin="round" stroke-linecap="round"/><circle cx="9" cy="19" r="1"/><circle cx="18" cy="19" r="1"/></svg><span>Количка</span><span class="cart-count" id="cartCount" aria-live="polite">0</span></button>
+        <button class="mobile-menu-toggle icon-button" id="mobileToggle" type="button" aria-expanded="false" aria-controls="mobileNav" aria-label="Отвори менюто"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg></button>
+      </div>
+    </div>
+    <nav class="mobile-nav" id="mobileNav" aria-label="Мобилна навигация" hidden><a href="#top">Начало</a><a href="#categories">Категории</a><a href="#products">Продукти</a><a href="#story">За нас</a></nav>
+  </header>
+
+  <main>
+    <section class="hero container" aria-labelledby="hero-heading">
+      <div class="hero-content">
+        <p class="eyebrow"><span class="mini-line"></span> ВКУСЪТ НА ИСТИНСКАТА ХРАНА</p>
+        <h1 id="hero-heading">Добрата храна<br />започва <em>оттук.</em></h1>
+        <p class="hero-description">Открий свежи продукти, любими вкусове и малки ежедневни радости. Всичко необходимо за трапезата, на едно място.</p>
+        <div class="hero-buttons"><a href="#products" class="button button-primary">Пазарувай сега <span class="button-arrow" aria-hidden="true">↗</span></a><a href="#story" class="text-link">Нашата философия <span aria-hidden="true">↗</span></a></div>
+        <div class="hero-social-proof"><div class="small-illustrations" aria-hidden="true"><span>🥑</span><span>🍓</span><span>🥖</span></div><div><strong>По-свежо всеки ден</strong><small>Добри продукти. Лесно пазаруване.</small></div></div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-shape hero-shape-one" aria-hidden="true"></div>
+        <div class="hero-shape hero-shape-two" aria-hidden="true"></div>
+        <img class="hero-illustration" src="assets/hero-market.svg" alt="Илюстрация на платнена чанта със свежи плодове, зеленчуци и хляб" />
+        <div class="hero-float"><div class="float-icon">✳</div><div><strong>Свежа селекция</strong><span>Любимите продукти, с грижа</span></div></div>
+        <span class="hero-vertical" aria-hidden="true">EVERYDAY FRESH · EVERYDAY GOOD</span>
+      </div>
+    </section>
+
+    <section class="trust-strip" aria-label="Предимства на магазина"><div class="container trust-items">
+      <div class="trust-item"><span class="trust-symbol" aria-hidden="true">✳</span><span><strong>Внимателно подбрано</strong><small>Продукти за всеки ден</small></span></div>
+      <div class="trust-item"><span class="trust-symbol" aria-hidden="true">↗</span><span><strong>Лесна поръчка</strong><small>Бързо и удобно онлайн</small></span></div>
+      <div class="trust-item"><span class="trust-symbol" aria-hidden="true">♡</span><span><strong>С отношение</strong><small>Грижа във всеки детайл</small></span></div>
+      <div class="trust-item"><span class="trust-symbol" aria-hidden="true">✺</span><span><strong>Храна с характер</strong><small>Вкус, който се помни</small></span></div>
+    </div></section>
+
+    <section class="section categories-section container" id="categories" aria-labelledby="categories-title">
+      <div class="section-heading"><div><p class="eyebrow">ОТКРИЙ СВОИТЕ ЛЮБИМИ НЕЩА</p><h2 id="categories-title">Какво ти се хапва <em>днес?</em></h2></div><a href="#products" class="outline-link" id="showAllCategories">Всички продукти <span aria-hidden="true">↗</span></a></div>
+      <div class="categories-grid" id="categoriesGrid">
+        <button class="category-card category-fruit" type="button" data-category="Плодове"><span class="category-emoji" aria-hidden="true">🍊</span><span class="category-copy"><strong>Плодове</strong><small>Свежест и цвят</small></span><span class="round-arrow" aria-hidden="true">↗</span></button>
+        <button class="category-card category-veg" type="button" data-category="Зеленчуци"><span class="category-emoji" aria-hidden="true">🥬</span><span class="category-copy"><strong>Зеленчуци</strong><small>Всеки ден по-добре</small></span><span class="round-arrow" aria-hidden="true">↗</span></button>
+        <button class="category-card category-dairy" type="button" data-category="Млечни"><span class="category-emoji" aria-hidden="true">🧀</span><span class="category-copy"><strong>Млечни</strong><small>Познатият вкус</small></span><span class="round-arrow" aria-hidden="true">↗</span></button>
+        <button class="category-card category-bread" type="button" data-category="Пекарна"><span class="category-emoji" aria-hidden="true">🥖</span><span class="category-copy"><strong>Пекарна</strong><small>Уют във всяка хапка</small></span><span class="round-arrow" aria-hidden="true">↗</span></button>
+      </div>
+    </section>
+
+    <section class="section products-section" id="products" aria-labelledby="products-title"><div class="container">
+      <div class="section-heading products-heading"><div><p class="eyebrow">ПОДБРАНО ЗА ТЕБ</p><h2 id="products-title">Малки открития, <em>голям вкус.</em></h2></div><p class="section-intro">От сутрешната закуска до специалната вечеря — намери твоите продукти.</p></div>
+      <div class="catalog-toolbar"><div class="filter-list" role="group" aria-label="Филтри по категория" id="categoryFilters"><button class="filter-button selected" type="button" data-filter="Всички" aria-pressed="true">Всички</button><button class="filter-button" type="button" data-filter="Плодове" aria-pressed="false">Плодове</button><button class="filter-button" type="button" data-filter="Зеленчуци" aria-pressed="false">Зеленчуци</button><button class="filter-button" type="button" data-filter="Млечни" aria-pressed="false">Млечни</button><button class="filter-button" type="button" data-filter="Пекарна" aria-pressed="false">Пекарна</button><button class="filter-button" type="button" data-filter="Други" aria-pressed="false">Други</button></div><div class="catalog-controls"><label class="catalog-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10.7" cy="10.7" r="6.8"/><path d="m16 16 5.1 5.1" stroke-linecap="round"/></svg><input id="productSearch" type="search" placeholder="Търси продукт..." aria-label="Търси продукт" /></label><label class="select-wrap"><span class="sr-only">Подреди продукти</span><select id="sortProducts"><option value="featured">Препоръчани</option><option value="priceAsc">Цена: ниска към висока</option><option value="priceDesc">Цена: висока към ниска</option><option value="name">По име</option></select></label></div></div>
+      <p class="results-count" id="resultsCount" aria-live="polite"></p><p id="serverStatus" class="results-count" aria-live="polite">Свързване с магазина...</p>
+      <div class="product-grid" id="productGrid"></div>
+      <div class="no-results" id="noResults" hidden><span>🌱</span><h3>Не открихме такъв продукт</h3><p>Опитай с друга дума или избери различна категория.</p><button class="button button-secondary" type="button" id="resetFilters">Покажи всички</button></div>
+    </div></section>
+
+    <section class="container feature-section" id="story" aria-labelledby="story-title"><div class="feature-panel"><div class="feature-visual"><div class="feature-art-circle"></div><span class="feature-leaf feature-leaf-one">✳</span><span class="feature-leaf feature-leaf-two">✳</span><span class="feature-big-icon" aria-hidden="true">🥬</span><div class="feature-seal">GOOD FOOD<br /><span>GOOD MOOD ✳</span></div></div><div class="feature-content"><p class="eyebrow eyebrow-light">ПОВЕЧЕ ОТ ПАЗАРУВАНЕ</p><h2 id="story-title">Свежо мислене.<br /><em>Истински вкус.</em></h2><p>Вярваме, че добрата храна прави обикновения ден специален. Затова създадохме пространство, в което изборът е лесен, красив и вдъхновяващ.</p><a class="button button-cream" href="#products">Открий продуктите <span class="button-arrow" aria-hidden="true">↗</span></a></div></div></section>
+
+    <section class="container newsletter-section" aria-labelledby="newsletter-title"><div><p class="eyebrow">МАЛКО ВДЪХНОВЕНИЕ В ПОЩАТА ТИ</p><h2 id="newsletter-title">Да останем <em>вкусно свързани.</em></h2><p>Любими сезонни предложения и идеи за твоята трапеза.</p></div><form id="newsletterForm" class="newsletter-form"><label class="sr-only" for="newsletterEmail">Имейл адрес</label><input id="newsletterEmail" type="email" placeholder="Твоят имейл адрес" autocomplete="email" required /><button type="submit" aria-label="Демонстрация на абонамент">Абонирай се ↗</button><span class="form-message" id="newsletterMessage" aria-live="polite">Демо форма — не изпраща имейли.</span></form></section>
+  </main>
+
+  <footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-about"><a class="brand brand-footer" href="#top"><span class="brand-mark" aria-hidden="true">✳</span><span class="brand-name">корен<span class="brand-period">.</span></span></a><p>Хубавата храна започва от добрия избор. Онлайн магазин с отношение към малките неща.</p></div><div class="footer-column"><h3>Разгледай</h3><a href="#categories">Категории</a><a href="#products">Продукти</a><a href="#story">За нас</a></div><div class="footer-column"><h3>Информация</h3><span>Безплатна доставка над 45 €</span><span>Поръчки чрез локалната система</span><span>Плащане при доставка</span></div><div class="footer-column"><h3>Свежи идеи</h3><p>Хубавата храна събира хората.</p><a href="#top" class="back-to-top">Обратно нагоре ↑</a></div></div><div class="footer-bottom"><span>© <span id="currentYear"></span> Корен. Локална тестова версия.</span><span>Създадено с внимание към детайла ✳</span></div></div></footer>
+
+  <div class="overlay" id="overlay" hidden></div>
+  <aside class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-label="Твоята количка" aria-hidden="true" tabindex="-1"><div class="drawer-header"><div><p class="eyebrow">ТВОЯТ ИЗБОР</p><h2>Количка <span id="drawerItemCount">(0)</span></h2></div><button class="close-button" id="closeCart" aria-label="Затвори количката" type="button">×</button></div><div class="cart-items" id="cartItems"></div><div class="cart-bottom" id="cartBottom"><div class="shipping-progress" id="shippingProgress"></div><div class="summary-line"><span>Продукти</span><strong id="subtotal">0,00 €</strong></div><div class="summary-line"><span>Доставка</span><strong id="delivery">0,00 €</strong></div><div class="summary-total"><span>Общо</span><strong id="total">0,00 €</strong></div><button id="checkoutButton" class="button button-primary checkout-button" type="button">Към поръчка <span aria-hidden="true">↗</span></button><p class="demo-note">Наличността и окончателната сума се проверяват при изпращане на поръчката.</p></div></aside>
+
+  <div class="modal-shell" id="productModal" role="dialog" aria-modal="true" aria-labelledby="modalProductTitle" aria-hidden="true" tabindex="-1"><button type="button" class="close-button modal-close" id="closeProductModal" aria-label="Затвори">×</button><div id="modalProductContent"></div></div>
+
+  <div class="modal-shell checkout-modal" id="checkoutModal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle" aria-hidden="true" tabindex="-1"><button type="button" class="close-button modal-close" id="closeCheckout" aria-label="Затвори">×</button><div class="checkout-inner"><p class="eyebrow">ПОСЛЕДНА СТЪПКА</p><h2 id="checkoutTitle">Твоята поръчка</h2><p>Попълни данните за доставка. Те ще бъдат записани локално за обработване на поръчката.</p><form id="checkoutForm"><label>Име и фамилия<input type="text" name="name" autocomplete="name" required minlength="2" /></label><label>Имейл<input type="email" name="email" autocomplete="email" required /></label><label>Телефон<input type="tel" name="phone" autocomplete="tel" required minlength="6" /></label><label>Адрес за доставка<textarea name="address" rows="2" required minlength="8"></textarea></label><label>Начин на плащане<select name="payment_method" id="paymentMethod"><option value="cod">Плащане при доставка</option></select></label><p class="demo-note" id="stripeMethodNote" hidden>Ще бъдеш пренасочен към защитената платежна страница на Stripe.</p><p class="demo-note">Лична информация: предоставените данни се използват за обработка и доставка на поръчката. Публикувай политика за поверителност преди пускане на сайта.</p><div class="checkout-summary"><span>Обща сума:</span><strong id="checkoutTotal"></strong></div><button type="submit" class="button button-primary">Изпрати поръчката ↗</button><p id="checkoutError" class="checkout-error" role="alert" style="color:#b24334"></p></form><div class="checkout-success" id="checkoutSuccess" hidden><span>✳</span><h3>Поръчката е приета!</h3><p>Номер на поръчката: <strong id="orderReference"></strong>. Очаквай връзка за потвърждение на доставката.</p><button type="button" class="button button-secondary" id="finishCheckout">Продължи с пазаруването</button></div></div></div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 760" role="img" aria-labelledby="title desc"><title id="title">Fresh market shopping bag</title><desc id="desc">Illustration of a forest green grocery bag with fruit, vegetables and bread</desc>
+<defs>
+ <radialGradient id="bg"><stop stop-color="#eff1ca"/><stop offset="1" stop-color="#b4d8ad"/></radialGradient>
+ <linearGradient id="bag" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#356b50"/><stop offset=".56" stop-color="#214c39"/><stop offset="1" stop-color="#143d31"/></linearGradient>
+ <linearGradient id="bread" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7d08a"/><stop offset="1" stop-color="#c98949"/></linearGradient>
+ <linearGradient id="carrot" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fdac5c"/><stop offset="1" stop-color="#eb692f"/></linearGradient>
+ <linearGradient id="tomato" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff9774"/><stop offset="1" stop-color="#e94731"/></linearGradient>
+ <filter id="shadow" x="-40%" width="180%" y="-40%" height="180%"><feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#285440" flood-opacity=".28"/></filter>
+ <filter id="smallshadow" x="-30%" width="160%" y="-30%" height="160%"><feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#365541" flood-opacity=".2"/></filter>
+</defs>
+<circle cx="381" cy="373" r="298" fill="url(#bg)" opacity=".72"/>
+<g opacity=".5" fill="none" stroke="#faffd7" stroke-width="3"><path d="M75 225c37-89 108-143 214-160M610 538c34-28 62-62 81-110"/><circle cx="590" cy="119" r="8"/><circle cx="112" cy="529" r="6"/></g>
+<ellipse cx="396" cy="636" rx="245" ry="53" fill="#3b7850" opacity=".16"/>
+<!-- Baguette -->
+<g transform="rotate(16 465 300)" filter="url(#smallshadow)"><rect x="426" y="79" width="78" height="343" rx="39" fill="url(#bread)"/><g fill="none" stroke="#ffebba" stroke-width="12" stroke-linecap="round"><path d="M444 137l40 25M443 210l40 24M443 278l40 24M443 348l35 21"/></g><g fill="none" stroke="#be7c42" stroke-width="3" opacity=".6"><path d="M444 130l36 20M441 205l38 23M440 274l38 24M441 343l35 22"/></g></g>
+<!-- Carrot leaves -->
+<g transform="rotate(-21 237 335)"><path d="M218 208c-20-41-19-66-2-88 17 32 18 55 14 84 4-54 25-79 50-86-2 50-18 77-43 98 31-32 59-35 80-26-20 28-48 39-77 37" fill="#4f9858"/><path d="M232 226c-3-47 3-72 8-95" fill="none" stroke="#326b40" stroke-width="4"/><path d="M226 214c-19 83-2 183 36 203 32-54 8-137-36-203" fill="url(#carrot)"/><g stroke="#dc6b35" stroke-width="4" opacity=".6"><path d="M218 270l21 8M215 319l20 8M258 344l18-10"/></g></g>
+<!-- leafy greens -->
+<g filter="url(#smallshadow)"><path d="M281 340c-91-36-112-95-72-139 21 9 28 21 36 36-9-57 5-90 47-110 36 27 42 58 37 90 20-59 50-75 91-68 21 41 9 77-20 108 39-32 84-25 108 7-14 46-64 66-113 77Z" fill="#4d9154"/><path d="M296 343c-64-36-86-86-76-135 41 14 65 50 76 135Z" fill="#88ba69"/><path d="M302 334c-19-76-14-146-10-190 46 39 55 111 10 190Z" fill="#b0d783"/><path d="M311 331c19-104 51-151 95-169 16 59-12 127-95 169Z" fill="#74aa66"/><path d="M299 337c63-69 124-82 172-64-30 48-88 69-172 64Z" fill="#9fcf75"/><g fill="none" stroke="#d2e6a4" stroke-width="3" opacity=".8"><path d="M294 325l-4-159M312 316l79-124M314 335l132-55"/></g></g>
+<!-- banana / lemon -->
+<g filter="url(#smallshadow)"><ellipse cx="486" cy="326" rx="67" ry="73" fill="#f2ca50" transform="rotate(-19 486 326)"/><ellipse cx="474" cy="319" rx="51" ry="59" fill="#ffe77b" transform="rotate(-19 474 319)"/><path d="M475 269c-6-13-7-19-3-28" stroke="#587747" stroke-width="9" stroke-linecap="round"/></g>
+<!-- tomato -->
+<g filter="url(#smallshadow)"><circle cx="366" cy="325" r="59" fill="url(#tomato)"/><ellipse cx="345" cy="304" rx="16" ry="7" fill="#ffc1a0" opacity=".55" transform="rotate(-29 345 304)"/><path d="M360 275c-15-10-23-8-32-2l18 11-4 13 21-9 19 8-9-15 13-14-24 7Z" fill="#3d7845"/><path d="M362 276l2-17" stroke="#2e6639" stroke-width="5" stroke-linecap="round"/></g>
+<!-- bag handle -->
+<path d="M268 399c-3-83 27-114 106-115 76-1 111 31 114 112" fill="none" stroke="#173d30" stroke-width="28" stroke-linecap="round" filter="url(#smallshadow)"/>
+<path d="M268 397c-3-81 27-113 106-113 76 0 111 31 114 111" fill="none" stroke="#578965" stroke-width="16" stroke-linecap="round"/>
+<!-- bag -->
+<g filter="url(#shadow)"><path d="M189 364c12-19 36-26 62-26h251c25 0 48 6 59 25l33 248c4 24-13 42-37 42H210c-25 0-41-19-37-43Z" fill="url(#bag)"/><path d="M188 362h373l8 46H181Z" fill="#396f51"/><path d="M206 425l-22 168" fill="none" stroke="#4a8761" stroke-width="5" opacity=".35"/><path d="M558 426l23 168" fill="none" stroke="#0b3228" stroke-width="5" opacity=".35"/><path d="M213 626c116 21 226 25 339 0" fill="none" stroke="#53916d" stroke-width="4" opacity=".2"/>
+<g transform="translate(293 441)"><rect width="182" height="123" rx="12" fill="#f8f5df"/><g transform="translate(73 16)" fill="none" stroke="#29583f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 50V17M18 34C5 35 0 22 1 9c12 0 17 9 17 25Zm0-9C19 10 28 3 40 3c1 17-7 24-22 25M5 50h26"/></g><text x="91" y="91" font-family="Arial,sans-serif" font-size="29" font-weight="bold" text-anchor="middle" fill="#244c39" letter-spacing="-2">корен.</text><text x="91" y="107" font-family="Arial,sans-serif" font-size="7" text-anchor="middle" letter-spacing="2" fill="#68846a">FRESH &amp; GOOD</text></g></g>
+<!-- flying decorative circles -->
+<g fill="#f8e9aa"><circle cx="180" cy="268" r="8"/><circle cx="566" cy="222" r="5"/></g><g fill="none" stroke="#f4f7db" stroke-width="5" stroke-linecap="round"><path d="M572 329v25m-13-12h26M173 419v19m-9-9h19"/></g>
+</svg>
