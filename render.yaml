@@ -1,20 +1,16 @@
-# Render Blueprint: a password-protected, TEST-ONLY staging deployment.
-# Creating this service incurs compute and persistent-disk charges.
+# Password-protected TEST demo; no paid resources and NO persistent storage.
+# Edits, stock changes and sample orders disappear on restarts/deploys/idle spin-down.
 services:
   - type: web
-    name: koren-staging
+    name: koren-free-demo
     runtime: python
-    plan: starter
+    plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /healthz
-    disk:
-      name: koren-data
-      mountPath: /var/data
-      sizeGB: 1
     envVars:
       - key: KOREN_DATA_DIR
-        value: /var/data
+        value: /tmp/koren-demo-data
       - key: KOREN_STAGING_ONLY
         value: '1'
       - key: STAGING_HTTP_USER
