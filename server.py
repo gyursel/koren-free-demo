@@ -9,6 +9,7 @@ import re
 import secrets
 import sqlite3
 import time
+import threading
 from contextlib import contextmanager
 from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
@@ -20,22 +21,31 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, EmailStr, Field, field_validator
 
 ROOT = Path(__file__).resolve().parent
+DATABASE_URL = os.getenv('DATABASE_URL', '')
+IS_VERCEL = os.getenv('VERCEL') == '1'
+if IS_VERCEL and not DATABASE_URL:
+    raise RuntimeError('Добави DATABASE_URL от Neon във Vercel.')
+if DATABASE_URL and not os.getenv('SESSION_SECRET'):
+    raise RuntimeError('Добави постоянен SESSION_SECRET (32+ символа).')
+if DATABASE_URL and len(os.getenv('SESSION_SECRET', '')) < 32:
+    raise RuntimeError('SESSION_SECRET трябва да е поне 32 символа.')
 DATA = Path(os.getenv('KOREN_DATA_DIR', str(ROOT / '.data')))
-DATA.mkdir(parents=True, exist_ok=True)
 DB_PATH = DATA / 'koren.sqlite3'
 SECRET_FILE = DATA / 'session.secret'
 if os.getenv('SESSION_SECRET'):
     SESSION_SECRET = os.environ['SESSION_SECRET'].encode()
-elif SECRET_FILE.exists():
-    SESSION_SECRET = SECRET_FILE.read_bytes()
 else:
-    SESSION_SECRET = secrets.token_bytes(32)
-    fd = os.open(SECRET_FILE, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-    with os.fdopen(fd, 'wb') as f:
-        f.write(SESSION_SECRET)
-# Render supplies the default HTTPS hostname; a custom domain requires APP_BASE_URL.
-DEFAULT_URL = ('https://' + os.environ['RENDER_EXTERNAL_HOSTNAME']
-               if os.getenv('RENDER_EXTERNAL_HOSTNAME') else 'http://127.0.0.1:8080')
+    DATA.mkdir(parents=True, exist_ok=True)
+    if SECRET_FILE.exists():
+        SESSION_SECRET = SECRET_FILE.read_bytes()
+    else:
+        SESSION_SECRET = secrets.token_bytes(32)
+        fd = os.open(SECRET_FILE, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        with os.fdopen(fd, 'wb') as f:
+            f.write(SESSION_SECRET)
+hostname = (os.getenv('VERCEL_PROJECT_PRODUCTION_URL') or os.getenv('VERCEL_URL')
+            or os.getenv('RENDER_EXTERNAL_HOSTNAME'))
+DEFAULT_URL = 'https://' + hostname if hostname else 'http://127.0.0.1:8080'
 BASE_URL = os.getenv('APP_BASE_URL', DEFAULT_URL).rstrip('/')
 STAGING_ONLY = os.getenv('KOREN_STAGING_ONLY') == '1'
 STAGING_USER = os.getenv('STAGING_HTTP_USER', '')
@@ -45,6 +55,8 @@ if STAGING_ONLY and (not STAGING_USER or len(STAGING_PASSWORD) < 12):
 IS_HTTPS = BASE_URL.startswith('https://')
 ADMIN_USER = os.getenv('ADMIN_USER', 'admin')
 ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD', '')
+if IS_VERCEL and len(ADMIN_PASSWORD) < 12:
+    raise RuntimeError('Добави ADMIN_PASSWORD с поне 12 символа във Vercel.')
 STRIPE_SECRET = os.getenv('STRIPE_SECRET_KEY', '')
 STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET', '')
 STRIPE_ENABLED = (STRIPE_SECRET.startswith(('sk_test_', 'sk_live_'))
@@ -96,16 +108,77 @@ def healthz():
     return {'ok': True}
 
 
+class PostgresDB:
+    """Parameter-bound PostgreSQL connection for the existing query interface."""
+    def __init__(self, connection):
+        self.connection = connection
+
+    def execute(self, sql, params=None):
+        if sql == 'BEGIN IMMEDIATE':
+            sql = 'BEGIN'
+        # Queries are fixed application SQL; user values always remain parameters.
+        if params is not None:
+            sql = sql.replace('?', '%s')
+        if (self.connection.info.transaction_status.name == 'INTRANS'
+                and (sql.startswith('SELECT * FROM products WHERE id=')
+                     or sql.startswith('SELECT * FROM orders WHERE id=')
+                     or sql.startswith('SELECT status FROM orders WHERE id='))):
+            sql += ' FOR UPDATE'
+        return self.connection.execute(sql, params)
+
+    def executescript(self, sql):
+        sql = sql.replace('PRAGMA journal_mode=WAL;', '')
+        sql = sql.replace("DEFAULT (datetime('now'))",
+                          "DEFAULT to_char(timezone('UTC', now()), 'YYYY-MM-DD HH24:MI:SS')")
+        for table in ('products', 'orders'):
+            sql = sql.replace('CREATE TABLE IF NOT EXISTS ' + table + ' (',
+                              'CREATE TABLE IF NOT EXISTS ' + table + ' (rowid BIGSERIAL UNIQUE,')
+        for statement in sql.split(';'):
+            if statement.strip():
+                self.connection.execute(statement)
+
+    def commit(self):
+        self.connection.commit()
+
+    def rollback(self):
+        self.connection.rollback()
+
+    def close(self):
+        self.connection.close()
+
+
 @contextmanager
-def connect():
-    db = sqlite3.connect(DB_PATH, timeout=15, isolation_level=None)
-    db.row_factory = sqlite3.Row
-    db.execute('PRAGMA busy_timeout=15000')
-    db.execute('PRAGMA foreign_keys=ON')
+def raw_connect():
+    if DATABASE_URL:
+        import psycopg
+        from psycopg.rows import dict_row
+        db = PostgresDB(psycopg.connect(DATABASE_URL, autocommit=True,
+                        row_factory=dict_row, connect_timeout=15, prepare_threshold=None))
+    else:
+        db = sqlite3.connect(DB_PATH, timeout=15, isolation_level=None)
+        db.row_factory = sqlite3.Row
+        db.execute('PRAGMA busy_timeout=15000')
+        db.execute('PRAGMA foreign_keys=ON')
     try:
         yield db
     finally:
         db.close()
+
+
+_db_ready = False
+_init_lock = threading.Lock()
+
+
+@contextmanager
+def connect():
+    global _db_ready
+    if DATABASE_URL and not _db_ready:
+        with _init_lock:
+            if not _db_ready:
+                init_db()
+                _db_ready = True
+    with raw_connect() as db:
+        yield db
 
 
 @contextmanager
@@ -121,7 +194,10 @@ def transaction():
 
 
 def init_db():
-    with connect() as db:
+    with raw_connect() as db:
+        db.execute('BEGIN IMMEDIATE')
+        if DATABASE_URL:
+            db.execute('SELECT pg_advisory_xact_lock(746231908)')
         db.executescript('''
             PRAGMA journal_mode=WAL;
             CREATE TABLE IF NOT EXISTS products (
@@ -158,6 +234,8 @@ def init_db():
                    cents(p['oldPrice']) if p['oldPrice'] is not None else None,
                    p['unit'], p['emoji'], p['tint'], p['badge'], p['image'],
                    p['description'], p['stock'], int(p['active'])))
+
+        db.commit()
 
 
 def cents(value):
@@ -408,7 +486,7 @@ def create_order(body: OrderInput):
     oid = 'K-' + secrets.token_hex(6).upper()
     with transaction() as db:
         rows = []
-        for item in body.items:
+        for item in sorted(body.items, key=lambda item: item.id):
             p = db.execute('SELECT * FROM products WHERE id=? AND active=1', (item.id,)).fetchone()
             if not p:
                 raise HTTPException(400, 'Продукт вече не се предлага. Обнови количката.')
@@ -578,4 +656,6 @@ def update_order(oid: str, change: StatusChange, request: Request):
         return {'ok':True}
 
 
-init_db()
+# Cloud builds import the app without connecting to the database.
+if not DATABASE_URL:
+    init_db()
