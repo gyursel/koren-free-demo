@@ -162,7 +162,7 @@ document.addEventListener('click',event=>{
   const add=event.target.closest('[data-add]');if(add){addToCart(add.dataset.add);return;}
   const detail=event.target.closest('[data-detail]');if(detail){openProductDetail(detail.dataset.detail);return;}
   const filter=event.target.closest('[data-filter]');if(filter){setFilter(filter.dataset.filter);return;}
-  const category=event.target.closest('[data-category]');if(category){setFilter(category.dataset.category);$('#products').scrollIntoView({behavior:'smooth'});return;}
+  const category=event.target.closest('[data-category]');if(category){setFilter(category.dataset.category);$('#products').scrollIntoView({behavior:window.matchMedia?.('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});return;}
   const qty=event.target.closest('[data-qty]');if(qty){updateQuantity(qty.dataset.id,Number(qty.dataset.qty));return;}
   const remove=event.target.closest('[data-remove]');if(remove){removeItem(remove.dataset.remove);return;}
 });
@@ -176,7 +176,7 @@ $('#productSearch').addEventListener('input',event=>{searchTerm=event.target.val
 $('#sortProducts').addEventListener('change',event=>{sortMode=event.target.value;renderProducts();});
 $('#resetFilters').addEventListener('click',resetFilters);
 $('#showAllCategories').addEventListener('click',resetFilters);
-$('#searchToggle').addEventListener('click',()=>{$('#products').scrollIntoView({behavior:'smooth'});$('#productSearch').focus({preventScroll:true});});
+$('#searchToggle').addEventListener('click',()=>{$('#products').scrollIntoView({behavior:window.matchMedia?.('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});$('#productSearch').focus({preventScroll:true});});
 $('#cartToggle').addEventListener('click',openCart);
 $('#closeCart').addEventListener('click',()=>closeCart());
 $('#overlay').addEventListener('click',closeEverything);
@@ -189,7 +189,7 @@ $('#paymentMethod').addEventListener('change',()=>{
   $('#stripeMethodNote').hidden=!online;
 });
 $('#finishCheckout').addEventListener('click',()=>closeModal());
-$('#cartItems').addEventListener('click',event=>{if(event.target.id==='keepShopping'){closeCart();$('#products').scrollIntoView({behavior:'smooth'});}});
+$('#cartItems').addEventListener('click',event=>{if(event.target.id==='keepShopping'){closeCart();$('#products').scrollIntoView({behavior:window.matchMedia?.('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}});
 $('#checkoutForm').addEventListener('submit',async event=>{
   event.preventDefault();
   const form=event.currentTarget;if(!form.reportValidity())return;
@@ -218,13 +218,25 @@ $('#newsletterForm').addEventListener('submit',event=>{
   $('#newsletterMessage').textContent='Демо: адресът е проверен, но не е записан или изпратен.';
   $('#newsletterEmail').value='';
 });
+function closeMobileNav(restoreFocus=false){
+  const wasOpen=!$('#mobileNav').hidden;
+  $('#mobileNav').hidden=true;
+  $('#mobileToggle').setAttribute('aria-expanded','false');
+  $('#mobileToggle').setAttribute('aria-label','Отвори менюто');
+  if(wasOpen&&restoreFocus)$('#mobileToggle').focus();
+}
 $('#mobileToggle').addEventListener('click',()=>{
   const nav=$('#mobileNav');const wasOpen=!nav.hidden;nav.hidden=wasOpen;
   $('#mobileToggle').setAttribute('aria-expanded',String(!wasOpen));
+  $('#mobileToggle').setAttribute('aria-label',wasOpen?'Отвори менюто':'Затвори менюто');
 });
-document.querySelectorAll('#mobileNav a').forEach(link=>link.addEventListener('click',()=>{$('#mobileNav').hidden=true;$('#mobileToggle').setAttribute('aria-expanded','false');}));
+document.querySelectorAll('#mobileNav a').forEach(link=>link.addEventListener('click',()=>{
+  closeMobileNav();
+  const target=document.querySelector(link.getAttribute('href'));
+  if(target){target.setAttribute('tabindex','-1');target.focus({preventScroll:true});}
+}));
 document.addEventListener('keydown',event=>{
-  if(event.key==='Escape'){closeEverything();return;}
+  if(event.key==='Escape'){closeMobileNav(true);closeEverything();return;}
   if(event.key!=='Tab'||!activeDialog)return;
   const focusable=[...activeDialog.querySelectorAll('button:not(:disabled):not([hidden]),a[href],input:not([disabled]):not([hidden]),textarea:not([disabled]):not([hidden])')].filter(el=>el.getClientRects().length!==0);
   if(!focusable.length)return;

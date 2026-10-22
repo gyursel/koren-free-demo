@@ -2,7 +2,7 @@
 <html lang="bg">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#193f35" />
   <meta name="description" content="Корен — модерен онлайн магазин за свежи плодове, зеленчуци и внимателно подбрани хранителни продукти." />
   <title>Корен — свежест, която има значение</title>
@@ -12,6 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script defer src="app.js"></script>
+  <script defer src="assets/experience.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#products">Към продуктите</a>
@@ -47,12 +48,13 @@
         <h1 id="hero-heading">Добрата храна<br />започва <em>оттук.</em></h1>
         <p class="hero-description">Открий свежи продукти, любими вкусове и малки ежедневни радости. Всичко необходимо за трапезата, на едно място.</p>
         <div class="hero-buttons"><a href="#products" class="button button-primary">Пазарувай сега <span class="button-arrow" aria-hidden="true">↗</span></a><a href="#story" class="text-link">Нашата философия <span aria-hidden="true">↗</span></a></div>
+        <a class="story-skip" href="#products">Директно към продуктите <span aria-hidden="true">↓</span></a>
         <div class="hero-social-proof"><div class="small-illustrations" aria-hidden="true"><span>🥑</span><span>🍓</span><span>🥖</span></div><div><strong>По-свежо всеки ден</strong><small>Добри продукти. Лесно пазаруване.</small></div></div>
       </div>
       <div class="hero-visual">
         <div class="hero-shape hero-shape-one" aria-hidden="true"></div>
         <div class="hero-shape hero-shape-two" aria-hidden="true"></div>
-        <img class="hero-illustration" src="assets/hero-market.svg" alt="Илюстрация на платнена чанта със свежи плодове, зеленчуци и хляб" />
+        <img class="hero-illustration" src="assets/hero-market.svg" width="720" height="720" fetchpriority="high" decoding="async" alt="Илюстрация на платнена чанта със свежи плодове, зеленчуци и хляб" />
         <div class="hero-float"><div class="float-icon">✳</div><div><strong>Свежа селекция</strong><span>Любимите продукти, с грижа</span></div></div>
         <span class="hero-vertical" aria-hidden="true">EVERYDAY FRESH · EVERYDAY GOOD</span>
       </div>
@@ -75,10 +77,11 @@
       </div>
     </section>
 
-    <section class="section products-section" id="products" aria-labelledby="products-title"><div class="container">
+    <section class="section products-section" tabindex="-1" id="products" aria-labelledby="products-title"><div class="container">
       <div class="section-heading products-heading"><div><p class="eyebrow">ПОДБРАНО ЗА ТЕБ</p><h2 id="products-title">Малки открития, <em>голям вкус.</em></h2></div><p class="section-intro">От сутрешната закуска до специалната вечеря — намери твоите продукти.</p></div>
       <div class="catalog-toolbar"><div class="filter-list" role="group" aria-label="Филтри по категория" id="categoryFilters"><button class="filter-button selected" type="button" data-filter="Всички" aria-pressed="true">Всички</button><button class="filter-button" type="button" data-filter="Плодове" aria-pressed="false">Плодове</button><button class="filter-button" type="button" data-filter="Зеленчуци" aria-pressed="false">Зеленчуци</button><button class="filter-button" type="button" data-filter="Млечни" aria-pressed="false">Млечни</button><button class="filter-button" type="button" data-filter="Пекарна" aria-pressed="false">Пекарна</button><button class="filter-button" type="button" data-filter="Други" aria-pressed="false">Други</button></div><div class="catalog-controls"><label class="catalog-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10.7" cy="10.7" r="6.8"/><path d="m16 16 5.1 5.1" stroke-linecap="round"/></svg><input id="productSearch" type="search" placeholder="Търси продукт..." aria-label="Търси продукт" /></label><label class="select-wrap"><span class="sr-only">Подреди продукти</span><select id="sortProducts"><option value="featured">Препоръчани</option><option value="priceAsc">Цена: ниска към висока</option><option value="priceDesc">Цена: висока към ниска</option><option value="name">По име</option></select></label></div></div>
       <p class="results-count" id="resultsCount" aria-live="polite"></p><p id="serverStatus" class="results-count" aria-live="polite">Свързване с магазина...</p>
+      <noscript><p class="static-notice">За търсене, разглеждане на каталога и поръчки включи JavaScript в браузъра. Информацията за магазина остава достъпна по-долу.</p></noscript>
       <div class="product-grid" id="productGrid"></div>
       <div class="no-results" id="noResults" hidden><span>🌱</span><h3>Не открихме такъв продукт</h3><p>Опитай с друга дума или избери различна категория.</p><button class="button button-secondary" type="button" id="resetFilters">Покажи всички</button></div>
     </div></section>
